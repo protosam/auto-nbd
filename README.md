@@ -41,3 +41,25 @@ root@9d7c9984a5e9:/# lsns -t pid
 4026532534 pid       1  1898 root /usr/bin/vpnkit-forwarder -data-connect /run/host-services/vpnkit-data.sock -data-listen /run/guest-services/wsl2-expose-ports.sock
 4026532666 pid       1 25935 root bash
 ```
+
+## Volume Management
+Volumes can be managed inside the container. Here is how to get in and remove a volume.
+```
+% docker exec -it auto-nbd bash
+root@b843c9fe6d5d:/# vgs
+  VG       #PV #LV #SN Attr   VSize   VFree
+  myvolgrp   1  10   0 wz--n- <60.00g <50.00g
+
+root@b843c9fe6d5d:/# lvs --noheading
+  pvc-4ba801bf-b7f6-4d85-ba69-4a51b52ac76a myvolgrp -wi------- 1.00g
+  pvc-5447de1a-b983-4de1-8dfd-ec6f77e52419 myvolgrp -wi------- 1.00g
+  pvc-68f79916-1f64-46f2-babe-2aaf74f0ad2b myvolgrp -wi------- 1.00g
+  pvc-6ff7eb10-af74-49b5-9927-f06cce4279a1 myvolgrp -wi------- 1.00g
+  pvc-a8a5c7f4-5c0a-4c73-bd21-16b3dc50b27b myvolgrp -wi------- 1.00g
+  pvc-a9af3318-2170-4099-ae46-94fc415199c4 myvolgrp -wi------- 1.00g
+  pvc-fd34d484-6624-457f-b6aa-e5c65db2c27d myvolgrp -wi------- 1.00g
+
+
+root@b843c9fe6d5d:/# lvremove /dev/myvolgrp/pvc-4ba801bf-b7f6-4d85-ba69-4a51b52ac76a
+  Logical volume "pvc-4ba801bf-b7f6-4d85-ba69-4a51b52ac76a" successfully removed
+```
